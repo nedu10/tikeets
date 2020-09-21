@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const uuid = require("uuid");
 
-const userSchema = new Schema(
+const eventSchema = new Schema(
   {
     _id: {
       type: String,
@@ -14,8 +14,17 @@ const userSchema = new Schema(
     event_date: {
       type: Date,
     },
+    details: {
+      type: String,
+    },
+    location: {
+      type: String,
+    },
+    reservation_limit: {
+      type: Number,
+    },
   },
   { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
 );
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model("Event", eventSchema);
