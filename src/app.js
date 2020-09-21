@@ -6,7 +6,7 @@ const logger = require("morgan");
 const helmet = require("helmet");
 const mongoose = require("mongoose");
 const compression = require("compression");
-const routes = require("../routes");
+const routes = require("./routes/index");
 
 app.use(logger("dev"));
 app.use(helmet());
