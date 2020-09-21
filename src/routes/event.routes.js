@@ -1,12 +1,10 @@
 const router = require("express").Router();
 
-const { register, login } = require("../App/Controllers/auth.controllers");
+const { create_event } = require("../App/Controllers/event.controllers");
 const {
-  validatorContent,
-} = require("../App/Validators/registration.validator");
-const { loginValidator } = require("../App/Validators/login.validator");
+  createEventValidator,
+} = require("../App/Validators/create-event.validator");
 
-router.post("/register", validatorContent, register);
-router.post("/login", loginValidator, login);
+router.post("/", createEventValidator, create_event);
 
 module.exports = router;

@@ -1,9 +1,14 @@
 const User = require("../Models/user.models");
 const jwt = require("jsonwebtoken");
-const expressJwt = require("express-jwt");
+const { validationResult } = require("express-validator");
+// const expressJwt = require("express-jwt");
 
 module.exports = {
   async register(req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
     const { password, first_name, last_name, email, role_id } = req.body;
     const userObj = {
       first_name,
@@ -31,6 +36,10 @@ module.exports = {
     }
   },
   async login(req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
     const { password, email } = req.body;
 
     try {

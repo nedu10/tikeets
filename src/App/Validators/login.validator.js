@@ -1,6 +1,6 @@
-const { check } = require("express-validator");
+const { body } = require("express-validator");
 
 exports.loginValidator = [
-  check("email").not().isEmpty().withMessage("Email is required"),
-  check("password").not().isEmpty().withMessage("Password is required"),
+  body("email").not().isEmpty().withMessage("Email is required"),
+  body("password").not().isEmpty().withMessage("Password is required"),
 ];
