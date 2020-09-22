@@ -3,7 +3,7 @@ const RoleType = require("../App/Models/role.models");
 const User = require("../App/Models/user.models");
 
 //setting up DB
-var dbURL = "mongodb://127.0.0.1:27017/tikeets"; //locally installed mongodb
+var dbURL = "mongodb://nedu11:Ifediorah22@ds345937.mlab.com:45937/tikeets"; //locally installed mongodb
 
 mongoose.connect(dbURL, {
   useNewUrlParser: true,
