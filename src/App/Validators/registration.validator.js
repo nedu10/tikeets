@@ -5,5 +5,4 @@ exports.validatorContent = [
   body("last_name").not().isEmpty().withMessage("Last Name is required"),
   body("email").isEmail().not().isEmpty().withMessage("Email is required"),
   body("password").not().isEmpty().withMessage("Password is required"),
-  body("role_id").not().isEmpty().withMessage("User Role is required"),
 ];

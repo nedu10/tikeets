@@ -1,4 +1,5 @@
 const User = require("../Models/user.models");
+const Role = require("../Models/role.models");
 const jwt = require("jsonwebtoken");
 const { validationResult } = require("express-validator");
 // const expressJwt = require("express-jwt");
@@ -9,15 +10,17 @@ module.exports = {
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const { password, first_name, last_name, email, role_id } = req.body;
-    const userObj = {
-      first_name,
-      last_name,
-      email,
-      role_id,
-    };
-    const user = new User(userObj);
+
     try {
+      const get_user_role = await Role.findOne({ label: "USER" });
+      const { password, first_name, last_name, email, role_id } = req.body;
+      const userObj = {
+        first_name,
+        last_name,
+        email,
+        role_id: role_id ? role_id : get_user_role._id,
+      };
+      const user = new User(userObj);
       user.password = user.encryptPassword(password);
 
       await user.save();
