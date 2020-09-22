@@ -38,7 +38,7 @@ exports.send = async (options) => {
   transport
     .sendMail(mailOptions)
     .then((response) => {
-      console.log(response);
+      // console.log(response);
     })
     .catch((err) => {
       console.log(err);
