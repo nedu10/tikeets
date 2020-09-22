@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "start": "nodemon index",
+    "start": "node index",
     "seed": "node ./src/seeds/role.seeds.js"
   },
   "author": "Chinedu Ifediorah",
