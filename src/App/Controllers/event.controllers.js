@@ -32,4 +32,50 @@ module.exports = {
       });
     }
   },
+  async update_event(req, res) {
+    const { name, location, details, event_date, reservation_limit } = req.body;
+    const { event_id } = req.params;
+    const eventObj = {};
+    name ? (eventObj.name = name) : null;
+    location ? (eventObj.location = location) : null;
+    details ? (eventObj.details = details) : null;
+    event_date ? (eventObj.event_date = event_date) : null;
+    reservation_limit ? (eventObj.reservation_limit = reservation_limit) : null;
+    try {
+      await Event.updateOne({ _id: event_id }, eventObj);
+      return res.status(202).json({
+        status_code: 202,
+        status: "Successful",
+        message: "Event Updated Successfully",
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status_code: 500,
+        status: "Error",
+        message: "Opps! Something went wrong.",
+        error: error.message,
+      });
+    }
+  },
+  async get_all_upcoming_events(req, res) {
+    try {
+      const get_events = await Event.find({
+        event_date: { $gte: new Date().toISOString() },
+      });
+      return res.status(200).json({
+        status_code: 200,
+        status: "Successful",
+        message: "Successfully fetched all upcoming events",
+        results: get_events,
+      });
+    } catch (error) {
+      console.log("error >> ", error);
+      return res.status(500).json({
+        status_code: 500,
+        status: "Error",
+        message: "Opps! Something went wrong.",
+        error: error.message,
+      });
+    }
+  },
 };
