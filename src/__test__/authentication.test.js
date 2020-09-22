@@ -105,7 +105,7 @@ describe("POST /events", () => {
         name: "Google Conference",
         location: "12, Saka Tinibu Street, Victoria Island, Lagos, Nigeria",
         details: "2020 Google conference limited to 500 guest",
-        event_date: "2011-10-05T14:48:00.000Z",
+        event_date: "2021-10-05T14:48:00.000Z",
         reservation_limit: 500,
       });
     expect(create_event.body.status_code).toBe(201);
@@ -115,20 +115,25 @@ describe("POST /events", () => {
 // get all upcoming event Test
 describe("GET /events", () => {
   test("get all upcoming event", async () => {
-    const create_event = await request
+    const get_events = await request
       .get("/events")
       .set("authorization", process.env.user_token);
-    expect(create_event.body.status_code).toBe(200);
+    process.env.event_id = get_events.body.results[0]._id;
+    expect(get_events.body.status_code).toBe(200);
   });
 });
 
 // update event Test
 describe("PATCH /events/:event_id", () => {
-  test("get all upcoming event", async () => {
-    const create_event = await request
-      .get("/events")
-      .set("authorization", process.env.user_token);
-    expect(create_event.body.status_code).toBe(200);
+  test("Update event", async () => {
+    const update = await request
+      .patch(`/events/${process.env.event_id}`)
+      .set("authorization", process.env.admin_token)
+      .send({
+        name: "Google Conference2",
+        reservation_limit: 500,
+      });
+    expect(update.body.status_code).toBe(202);
   });
 });
 
