@@ -3,7 +3,7 @@
   <head>
     <meta name="viewport" content="width=device-width" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Simple Transactional Email</title>
+    <title>Ticket Reservation Email</title>
     <style>
       /* -------------------------------------
           GLOBAL RESETS
@@ -363,50 +363,31 @@
                   >
                     <tr>
                       <td>
-                        <p>Hi there,</p>
-                        <p>
-                          Sometimes you just want to send a simple HTML email
-                          with a simple design and clear call to action. This is
-                          it.
+                        <p style="font-weight: bold">
+                          Hi <%= get_user.first_name %> <%= get_user.last_name
+                          %>,
                         </p>
-                        <table
-                          role="presentation"
-                          border="0"
-                          cellpadding="0"
-                          cellspacing="0"
-                          class="btn btn-primary"
-                        >
-                          <tbody>
-                            <tr>
-                              <td align="left">
-                                <table
-                                  role="presentation"
-                                  border="0"
-                                  cellpadding="0"
-                                  cellspacing="0"
-                                >
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <a
-                                          href="http://htmlemail.io"
-                                          target="_blank"
-                                          >Call To Action</a
-                                        >
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
                         <p>
-                          This is a really simple email template. Its sole
-                          purpose is to get the recipient to click the button
-                          with no distractions.
+                          You successfully booked for a ticket reservation in
+                          the upcoming
+                          <span style="font-weight: bold"
+                            ><%= get_event.name %></span
+                          >. Thanks for your interest in the event.
                         </p>
-                        <p>Good luck! Hope it works.</p>
+                        <p style="margin-top: 30px">
+                          <span style="font-weight: bold">Event Name: </span
+                          ><span><%= get_event.name %></span><br />
+                          <span style="font-weight: bold">Event Location: </span
+                          ><span><%= get_event.location %></span><br />
+                          <span style="font-weight: bold">Event Details: </span
+                          ><span><%= get_event.details %></span><br />
+                          <span style="font-weight: bold">Event Date: </span
+                          ><span
+                            ><%= get_event.event_date.toString().split('GMT')[0]
+                            %></span
+                          >
+                        </p>
+                        <p>Thanks! Have a nice day.</p>
                       </td>
                     </tr>
                   </table>
@@ -428,16 +409,8 @@
                 <tr>
                   <td class="content-block">
                     <span class="apple-link"
-                      >Company Inc, 3 Abbey Road, San Francisco CA 94102</span
+                      >Tikeets Inc, 3 tikeet street.</span
                     >
-                    <br />
-                    Don't like these emails?
-                    <a href="http://i.imgur.com/CScmqnj.gif">Unsubscribe</a>.
-                  </td>
-                </tr>
-                <tr>
-                  <td class="content-block powered-by">
-                    Powered by <a href="http://htmlemail.io">HTMLemail</a>.
                   </td>
                 </tr>
               </table>
