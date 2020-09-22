@@ -111,6 +111,7 @@ module.exports = {
         status_code: 201,
         status: "Successful",
         message: "Reservation Booked Successfully",
+        result: reservation,
       });
     } catch (error) {
       return res.status(500).json({

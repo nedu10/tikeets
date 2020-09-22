@@ -10,7 +10,7 @@ const jsonwebtoken = require("jsonwebtoken");
 
 const User = require("../App/Models/user.models");
 const RoleType = require("../App/Models/role.models");
-
+const Reservation = require("../App/Models/reservation.models");
 const Event = require("../App/Models/event.models");
 
 // our global object for storing auth information
@@ -137,9 +137,53 @@ describe("PATCH /events/:event_id", () => {
   });
 });
 
+// Book a ticket test
+describe("POST /events/:event_id/ticket", () => {
+  test("Book a ticket for an event", async () => {
+    const book_ticket = await request
+      .post(`/events/${process.env.event_id}/ticket`)
+      .set("authorization", process.env.user_token);
+    process.env.ticket_id = book_ticket.body.result._id;
+    expect(book_ticket.body.status_code).toBe(201);
+    expect(book_ticket.body.result).toBeTruthy();
+  });
+});
+
+// User Get all his reservations
+describe("GET /user/tickets", () => {
+  test("Fetch All My reservations", async () => {
+    const get_my_tickets = await request
+      .get(`/user/tickets`)
+      .set("authorization", process.env.user_token);
+    expect(get_my_tickets.body.status_code).toBe(200);
+    expect(get_my_tickets.body.results).toBeTruthy();
+  });
+});
+
+// Cancel reservation
+describe("PATCH /events/:event_id/:ticket_id", () => {
+  test("Cancel reservation", async () => {
+    const cancel_book_ticket = await request
+      .patch(`/events/${process.env.event_id}/${process.env.ticket_id}`)
+      .set("authorization", process.env.user_token);
+    expect(cancel_book_ticket.body.status_code).toBe(202);
+  });
+});
+
+// Delete Event
+describe("DELETE /events/:event_id", () => {
+  test("Delete Event", async () => {
+    const delete_event = await request
+      .delete(`/events/${process.env.event_id}`)
+      .set("authorization", process.env.admin_token);
+    expect(delete_event.body.status_code).toBe(200);
+  });
+});
+
 afterAll(async () => {
   await User.deleteMany({});
   await Event.deleteMany({});
   await RoleType.deleteMany({});
+  await Reservation.deleteMany({});
   db.disconnect();
 });
