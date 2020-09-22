@@ -107,12 +107,24 @@ module.exports = {
       event_id,
     };
 
-    const reservation = new Reservation(eventObj);
     try {
+      const get_event = await Event.findOne({ _id: event_id });
+      const get_reservations = await Reservation.find({ event_id: event_id });
+      if (
+        get_event.reservation_limit &&
+        get_event.reservation_limit <= get_reservations.length
+      ) {
+        return res.status(400).json({
+          status_code: 400,
+          status: "Failed",
+          message: "Sorry, There is no more reservation for this event",
+        });
+      }
+      const reservation = new Reservation(eventObj);
       await reservation.save();
 
       const get_user = await User.findOne({ _id: user_id });
-      const get_event = await Event.findOne({ _id: event_id });
+
       // send reservation email
       sendMail();
       let options = {
