@@ -57,6 +57,24 @@ module.exports = {
       });
     }
   },
+  async delete_event(req, res) {
+    const { event_id } = req.params;
+    try {
+      await Event.deleteOne({ _id: event_id });
+      return res.status(200).json({
+        status_code: 200,
+        status: "Successful",
+        message: "Event Deleted Successfully",
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status_code: 500,
+        status: "Error",
+        message: "Opps! Something went wrong.",
+        error: error.message,
+      });
+    }
+  },
   async get_all_upcoming_events(req, res) {
     try {
       const get_events = await Event.find({
