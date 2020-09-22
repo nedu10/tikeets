@@ -48,7 +48,7 @@ describe("POST /signup", () => {
     const register = await request.post("/signup").send({
       first_name: "John",
       last_name: "Doe",
-      email: "john5.doe@gmail.com",
+      email: "cifediorah3@gmail.com",
       role_id: process.env.user_role_id,
       password: password,
     });
@@ -74,7 +74,7 @@ describe("POST Admin /signup", () => {
 describe("POST /login", () => {
   test("Log into the system", async () => {
     const login = await request.post("/login").send({
-      email: "john5.doe@gmail.com",
+      email: "cifediorah3@gmail.com",
       password,
     });
     process.env.user_token = login.body.token;
