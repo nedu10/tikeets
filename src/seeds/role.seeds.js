@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const RoleType = require("../App/Models/role.models");
+const User = require("../App/Models/user.models");
 
 //setting up DB
 var dbURL = "mongodb://127.0.0.1:27017/tikeets"; //locally installed mongodb
@@ -19,7 +20,7 @@ const seed = [
   },
 ];
 
-seed.forEach((each) => {
+seed.forEach(async (each) => {
   var role_type = new RoleType(each);
   role_type
     .save()
@@ -29,4 +30,18 @@ seed.forEach((each) => {
     .catch((err) => {
       console.log(err);
     });
+
+  if (each.label == "ADMIN") {
+    const userObj = {
+      first_name: "Tikeet",
+      last_name: "Admin",
+      email: "admin@tikeets.com",
+      role_id: role_type._id,
+    };
+    const user = new User(userObj);
+    user.password = user.encryptPassword("tikeet_password");
+
+    await user.save();
+    console.log("Admin seeded successfully");
+  }
 });
