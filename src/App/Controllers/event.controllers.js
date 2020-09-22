@@ -123,13 +123,22 @@ module.exports = {
   },
   async cancel_reservation(req, res) {
     const user_id = req.current_user.id;
-    const { event_id, ticket_id } = req.params;
+    const { ticket_id } = req.params;
     try {
-      await Reservation.find();
-      return res.status(201).json({
-        status_code: 201,
-        status: "Successful",
-        message: "Reservation Booked Successfully",
+      const get_reservation = await Reservation.findOne({ _id: ticket_id });
+      if (get_reservation.user_id === user_id) {
+        get_reservation.is_cancelled = true;
+        await get_reservation.save();
+        return res.status(202).json({
+          status_code: 202,
+          status: "Successful",
+          message: "Successfully Cancel Reservations",
+        });
+      }
+      return res.status(401).json({
+        status_code: 401,
+        status: "Failed",
+        message: "You are not the creator of this reservation.",
       });
     } catch (error) {
       return res.status(500).json({

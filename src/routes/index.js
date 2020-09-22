@@ -4,5 +4,6 @@ router.get("/", (req, res) => res.send("Hello, Welcome to Tikeets API"));
 
 router.use("/", require("./auth.routes"));
 router.use("/events", require("./event.routes"));
+router.use("/user", require("./user.routes"));
 
 module.exports = router;
