@@ -7,6 +7,6 @@ const {
 const { admin_auth } = require("../App/Middleware/auth.middleware");
 
 router.get("/:user_id/tickets", admin_auth, user_reserve_ticket);
-router.get("/admin/roles", admin_auth, view_all_roles);
+router.get("/admin/roles", view_all_roles);
 
 module.exports = router;
