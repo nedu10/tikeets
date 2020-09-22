@@ -60,6 +60,24 @@ describe("POST /signup", () => {
     expect(register.body.status_code).toBe(201);
   });
 });
+describe("POST Admin /signup", () => {
+  test("register admin to the system", async () => {
+    const hashedPassword = bcrypt.hashSync(
+      password,
+      bcrypt.genSaltSync(5),
+      null
+    );
+    const register = await request.post("/signup").send({
+      first_name: "Tikeet",
+      last_name: "Admin",
+      email: "admin@tikeets.com",
+      role_id: data.admin_role_id,
+      password: hashedPassword,
+    });
+    // console.log(register);
+    expect(register.body.status_code).toBe(201);
+  });
+});
 
 afterAll(async () => {
   //disconnect db
@@ -68,3 +86,5 @@ afterAll(async () => {
   console.log("data >> ", data);
   db.disconnect();
 });
+
+exports.SETUP_DATA = data;
