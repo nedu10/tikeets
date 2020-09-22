@@ -1,6 +1,8 @@
 const Event = require("../Models/event.models");
+const User = require("../Models/user.models");
 const Reservation = require("../Models/reservation.models");
 const { validationResult } = require("express-validator");
+const { sendMail, em } = require("../Listenners/ReserveredTicket");
 
 module.exports = {
   async create_event(req, res) {
@@ -104,9 +106,25 @@ module.exports = {
       user_id,
       event_id,
     };
+
     const reservation = new Reservation(eventObj);
     try {
       await reservation.save();
+
+      const get_user = await User.findOne({ _id: user_id });
+      const get_event = await Event.findOne({ _id: event_id });
+      // send reservation email
+      sendMail();
+      let options = {
+        get_user,
+        get_event,
+        returnURL: `127.0.0.1:5000`,
+        subject: "Ticket Reservation",
+        filename: "reservation",
+      };
+
+      em.emit("sendMail", options);
+
       return res.status(201).json({
         status_code: 201,
         status: "Successful",
