@@ -1,4 +1,5 @@
 const Event = require("../Models/event.models");
+const Reservation = require("../Models/reservation.models");
 const { validationResult } = require("express-validator");
 
 module.exports = {
@@ -88,6 +89,49 @@ module.exports = {
       });
     } catch (error) {
       console.log("error >> ", error);
+      return res.status(500).json({
+        status_code: 500,
+        status: "Error",
+        message: "Opps! Something went wrong.",
+        error: error.message,
+      });
+    }
+  },
+  async book_ticket(req, res) {
+    const user_id = req.current_user.id;
+    const { event_id } = req.params;
+    const eventObj = {
+      user_id,
+      event_id,
+    };
+    const reservation = new Reservation(eventObj);
+    try {
+      await reservation.save();
+      return res.status(201).json({
+        status_code: 201,
+        status: "Successful",
+        message: "Reservation Booked Successfully",
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status_code: 500,
+        status: "Error",
+        message: "Opps! Something went wrong.",
+        error: error.message,
+      });
+    }
+  },
+  async cancel_reservation(req, res) {
+    const user_id = req.current_user.id;
+    const { event_id, ticket_id } = req.params;
+    try {
+      await Reservation.find();
+      return res.status(201).json({
+        status_code: 201,
+        status: "Successful",
+        message: "Reservation Booked Successfully",
+      });
+    } catch (error) {
       return res.status(500).json({
         status_code: 500,
         status: "Error",
